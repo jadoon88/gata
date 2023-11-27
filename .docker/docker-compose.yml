@@ -1,0 +1,34 @@
+version: '3'
+
+services:
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ../:/var/www/symfony
+
+    depends_on:
+      - php
+
+  php:
+    build:
+      context: ./php
+    volumes:
+      - ../:/var/www/symfony:cached
+      - ../var/log:/var/log
+    expose:
+      - 9003
+  mariadb:
+    image: mariadb:10.9.3
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MARIADB_DATABASE : ${DATABASE_NAME}
+      MARIADB_ROOT_PASSWORD: ${DATABASE_PASSWORD}
+
+
+
+

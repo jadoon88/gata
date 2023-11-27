@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+NC='\033[0m'
+
+if [ "$1" == "up" ]; then
+
+  echo Starting Docker Compose services...
+  docker-compose -f .docker/docker-compose.yml up -d
+  docker-compose -f .docker/docker-compose.yml exec php sh -c "cd /var/www/symfony && composer update --with-all-dependencies"
+  echo Composer dependencies installed/updated
+#   docker-compose -f .docker/docker-compose.yml exec php sh -c "cd /var/www/symfony && bin/console doctrine:migrations:migrate --no-interaction"
+  echo Done;
+
+elif [ "$1" == "reset" ]; then
+    echo Starting Docker Compose services...
+    docker-compose -f .docker/docker-compose.yml up --build -d
+    docker-compose -f .docker/docker-compose.yml exec php sh -c "cd /var/www/symfony && composer update --with-all-dependencies"
+    echo Composer dependencies installed/updated
+    docker-compose -f .docker/docker-compose.yml exec php sh -c "cd /var/www/symfony && bin/console doctrine:migrations:migrate --no-interaction"
+    echo Done;
+
+elif [ "$1" == "cli" ]; then
+   docker-compose -f .docker/docker-compose.yml exec php sh -c "cd /var/www/symfony && bin/console $2"
+
+fi
+
+function display_help {
+    echo "gata"
+
+    echo
+    echo -e "${YELLOW}Usage:${NC}" >&2
+    echo -e "gata COMMAND [options] [arguments]"
+    echo
+    echo -e "Unknown commands are passed to the docker-compose binary."
+    echo
+    echo -e "${YELLOW}docker-compose Commands:${NC}"
+    echo -e "  ${GREEN}/.gata up${NC}                 Start the application"
+    echo -e "  ${GREEN}/.gata reset${NC}              Reset the application in the background"
+    echo -e y"  ${GREEN}./gata cli [command]${NC}      Run symfony cli commands"
+    exit 1
+}
+
+if [ $# -gt 0 ]; then
+    if [ "$1" == "help" ] || [ "$1" == "-h" ] || [ "$1" == "-help" ] || [ "$1" == "--help" ]; then
+        display_help
+    fi
+else
+    display_help
+fi
