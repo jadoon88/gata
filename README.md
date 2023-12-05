@@ -1,5 +1,5 @@
 # Gata
-Gata is barebones docker setup for Symfony running on nginx.
+Gata is barebones docker setup for Symfony running on nginx. Inspired by Laravel Sail.
 
 To run...
 1. Clone the repository:
