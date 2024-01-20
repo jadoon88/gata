@@ -21,7 +21,7 @@ if [ "$1" == "up" ]; then
 #   docker-compose -f .docker/docker-compose.yml exec php sh -c "cd /var/www/symfony && bin/console doctrine:migrations:migrate --no-interaction"
   echo done;
   printf "click here to open gata: \e]8;;http://gata.local\agata.local\e]8;;\a\n"
-  echo ..make sure to have fun!;
+  echo ...make sure to have fun!;
 
 
 elif [ "$1" == "reset" ]; then
@@ -33,7 +33,7 @@ elif [ "$1" == "reset" ]; then
     echo Done;
 
 elif [ "$1" == "cli" ]; then
-   docker-compose -f .docker/docker-compose.yml exec php sh -c "cd /var/www/symfony && bin/console $2"
+   docker-compose -f .docker/docker-compose.yml exec php sh -c "cd /var/www/symfony && $2 $3 $4 $5 $7 $8"
 
 fi
 

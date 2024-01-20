@@ -18,6 +18,7 @@ services:
     volumes:
       - ../:/var/www/symfony:cached
       - ../var/log:/var/log
+      - ./php/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini 
     expose:
       - 9003
   mariadb:
