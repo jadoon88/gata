@@ -1,0 +1,7 @@
+POST /demo/api/cat 
+Host: gata.local
+Authorization: Bearer 123456789
+###
+POST /demo/api/cat?XDEBUG_SESSION_START=GATA
+Host: gata.local
+Authorization: Bearer 123456789
